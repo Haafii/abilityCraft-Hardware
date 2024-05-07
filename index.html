@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let ws = new WebSocket("ws://192.168.1.1/ws");
+
+        ws.onopen = () => {
+            console.log("opened");
+        };
+
+        ws.onmessage = ({ data }) => {
+            // Log data to console
+            console.log(data);
+
+            // Replace the entire body content with the console output
+            document.body.innerHTML = `<p>${""}</p>`;
+
+            // Check conditions and log corresponding messages
+            if (data == "62bc9251") {
+                console.log("Cat");
+                document.body.innerHTML += "<p>Cat</p>";
+            } else if (data == "213e384c") {
+                console.log("Dog");
+                document.body.innerHTML += "<p>Dog</p>";
+            } else if (data == "629c4c51") {
+                console.log("Apple");
+                document.body.innerHTML += "<p>Apple</p>";
+            } else if (data == "e01b0813") {
+                console.log("Orange");
+                document.body.innerHTML += "<p>Orange</p>";
+            } 
+        };
+    </script>
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let bluetoothDevice = null;
+
+        async function connectToBluetooth() {
+            try {
+                bluetoothDevice = await navigator.bluetooth.requestDevice({
+                    filters: [{ services: [0xFFE0] }],
+                });
+
+                const server = await bluetoothDevice.gatt.connect();
+                const service = await server.getPrimaryService(0xFFE0);
+                const characteristic = await service.getCharacteristic(0xFFE1);
+
+                characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicValueChanged);
+                await characteristic.startNotifications();
+            } catch (error) {
+                console.error('Error connecting to Bluetooth:', error);
+            }
+        }
+
+        function handleCharacteristicValueChanged(event) {
+            const data = event.target.value;
+            const hexString = Array.from(new Uint8Array(data.buffer)).map(byte => byte.toString(16).padStart(2, '0')).join('');
+
+            console.log('Received data:', hexString);
+
+            // Replace the entire body content with the received data
+            document.body.innerHTML = `<p>${hexString}</p>`;
+
+            // Check conditions and log corresponding messages
+            if (hexString === "62bc9251") {
+                console.log("Cat");
+                document.body.innerHTML += "<p>Cat</p>";
+            } else if (hexString === "213e384c") {
+                console.log("Dog");
+                document.body.innerHTML += "<p>Dog</p>";
+            } else if (hexString === "629c4c51") {
+                console.log("Apple");
+                document.body.innerHTML += "<p>Apple</p>";
+            } else if (hexString === "e01b0813") {
+                console.log("Orange");
+                document.body.innerHTML += "<p>Orange</p>";
+            }
+        }
+
+        // Connect to Bluetooth on page load
+        window.onload = () => connectToBluetooth();
+    </script>
+</body>
+</html> -->
